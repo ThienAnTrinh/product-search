@@ -1,1 +1,1 @@
-# search-assistant-system
+# Product Search
