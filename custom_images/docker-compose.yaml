@@ -1,9 +1,11 @@
 version: "3.8"
 services:
   jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: antrinh/jenkins:lts
     container_name: jenkins
-    restart: unless-stopped
     privileged: true
     user: root
     ports:

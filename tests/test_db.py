@@ -24,6 +24,8 @@ def test_app():
     assert "price" in data
 
     db = Vectorstore()
+    assert Path("app", config["db_path"]).exists()
+
     db.add_documents(docs)
     docs = db.search("high quality")
 
@@ -33,7 +35,3 @@ def test_app():
     assert "title" in metadata
     assert "description" in metadata
     assert "price" in metadata
-
-
-def test_db_dir():
-    assert Path("app", config["db_path"]).exists()
