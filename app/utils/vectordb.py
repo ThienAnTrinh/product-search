@@ -22,8 +22,7 @@ class Vectorstore():
         path = Path("app", config["db_path"])
         if path.exists():
             shutil.rmtree(path)
-        else:
-            path.mkdir()
+        path.mkdir(parents=True)
 
         if torch.cuda.is_available():
             model_kwargs = {"device": config.get("device", "cpu")}
