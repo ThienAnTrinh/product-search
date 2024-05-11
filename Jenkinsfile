@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    option {
+    options {
         // Max number of build logs to keep and days to keep
         buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
         // Enable timestamp at each job in the pipeline
@@ -17,7 +17,7 @@ pipeline {
         stage("Test") {
             agent {
                 docker {
-                    image "python 3.10"
+                    image "python:3.10-slim"
                 }
             }
             steps {
@@ -32,8 +32,9 @@ pipeline {
                     dockerImage = docker.build registry + ":$BUILD_NUMBER" 
                     echo 'Pushing image to dockerhub..'
                     docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                            dockerImage.push()
+                            dockerImage.push('latest')
+                    }
                 }
             }
         }
