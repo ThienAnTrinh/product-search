@@ -1,7 +1,7 @@
-import yaml
 import torch
 import shutil
 from pathlib import Path
+from utils import config
 
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -11,15 +11,11 @@ from typing import List
 
 
 
-with open("app/utils/config.yml", "r") as file:
-    config = yaml.safe_load(file)
-
-
 class Vectorstore():
 
-    def __init__(self) -> None:
+    def __init__(self, config) -> None:
 
-        path = Path("app", config["db_path"])
+        path = Path(config["db_path"])
         if path.exists():
             shutil.rmtree(path)
         path.mkdir(parents=True)

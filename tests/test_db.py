@@ -1,14 +1,14 @@
 from pathlib import Path
-import yaml
 
 import sys
 sys.path.insert(1, "app")
+
+from utils.config import load_config_test
 from utils.prepare_data import get_data, prepare_documents
 from utils.vectordb import Vectorstore
 
 
-with open("app/utils/config.yml", "r") as file:
-    config = yaml.safe_load(file)
+config = load_config_test()
 
 
 def test_app():
@@ -23,8 +23,8 @@ def test_app():
     assert "description" in data
     assert "price" in data
 
-    db = Vectorstore()
-    assert Path("app", config["db_path"]).exists()
+    db = Vectorstore(config=config)
+    assert Path(config["db_path"]).exists()
 
     db.add_documents(docs)
     docs = db.search("high quality")
