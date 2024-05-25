@@ -1,0 +1,2 @@
+ansible==9.5.1
+google-auth==2.29.0

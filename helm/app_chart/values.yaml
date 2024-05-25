@@ -1,0 +1,4 @@
+image:
+  repository: antrinh/product-search
+  tag: lts
+  pullPolicy: Always

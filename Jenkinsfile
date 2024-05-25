@@ -33,10 +33,57 @@ pipeline {
                     echo 'Pushing image to dockerhub..'
                     docker.withRegistry( '', registryCredential ) {
                             dockerImage.push()
-                            dockerImage.push('latest')
+                            dockerImage.push('lts')
                     }
                 }
             }
         }
+        stage("Deploy") {
+            agent {
+                kubernetes {
+                    containerTemplate {
+                        name 'helm' // Name of the container to be used for helm upgrade
+                        image 'antrinh/jenkins-docker-k8s:lts' // The image containing helm
+                        alwaysPullImage true // Always pull image in case of using the same tag
+                    }
+                }
+            }
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'openai_api_key', variable: 'OPENAI_API_KEY'),
+                        string(credentialsId: 'pinecone_api_key', variable: 'PINECONE_API_KEY')
+                    ])
+                        container('helm') {
+                            sh '''
+                                kubectl create namespace product-search || true
+                                helm upgrade --install app --namespace product-search ./helm/app_chart_nginx_ingress
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+        // stage('Monitor') {
+        //     steps {
+        //         script {
+        //             // Update Helm repositories
+        //             sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
+        //             sh 'helm repo update'
+
+        //             // Create Kubernetes namespace and install Prometheus stack
+        //             sh '''
+        //                 kubectl create namespace prometheus || true
+        //                 helm install monitoring-stack \
+        //                   --namespace prometheus \
+        //                   prometheus-community/kube-prometheus-stack
+        //             '''
+
+        //             // Expose Prometheus and Grafana dashboards
+        //             sh 'kubectl port-forward svc/monitoring-stack-kube-prom-prometheus 9090:9090 &'
+        //             sh 'kubectl port-forward svc/monitoring-stack-grafana 8888:80 &'
+        //         }
+        //     }
+        // }
     }
 }

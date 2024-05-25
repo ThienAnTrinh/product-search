@@ -44,7 +44,7 @@ def prepare_documents(dataset):
             metadata={
                 "id": id,
                 "title": title,
-                "description": description,
+                "description": description[:500],
                 "brand": brand,
                 "price": price
             }

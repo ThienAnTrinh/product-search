@@ -1,11 +1,13 @@
 version: "3.8"
+
 services:
   jenkins:
     build:
       context: .
       dockerfile: Dockerfile
-    image: antrinh/jenkins:lts
-    container_name: jenkins
+    platform: linux/amd64
+    image: antrinh/jenkins-docker-k8s:lts
+    container_name: jenkins-docker-k8s
     privileged: true
     user: root
     ports:

@@ -1,0 +1,4 @@
+For istio gateway and virtual service:
+
+- new docker image with fastapi root_path = "/{{ .Release.Name }}-service"
+- reroute api endpoints in templates/virtualservice.yaml

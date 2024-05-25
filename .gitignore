@@ -152,5 +152,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# db
-databases/
+# ansible
+secrets/
+inventory
