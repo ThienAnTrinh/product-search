@@ -19,3 +19,8 @@ Expose ports to access prometheus and grafana dashboards
 kubectl port-forward svc/monitoring-stack-kube-prom-prometheus 9090:9090
 kubectl port-forward svc/monitoring-stack-grafana 8888:80
 ```
+
+<img src="../../static/images/grafana-login.png" alt="grafana-login" width=800/>
+
+*Username:* **admin**
+*Password:* **prom-operator**

@@ -1,5 +1,15 @@
 # Product Search
 
+### API
+
+<img src="./static/images/swagger_ui.png" alt="api" width="800"/>
+
+### Prometheus and Grafana Monitoring
+
+<img src="./static/images/grafana.png" alt="monitoring_dashboard" width="800"/>
+
+## Setup
+
 ## Spin up compute instance
 
 Create a new GCP project
@@ -47,7 +57,7 @@ exit
 ## Set up Jenkins
 
 Install **Docker**, **Docker Pipeline**, and **Kubernetes** plugins:
-`Dashboard` > `Manage Jenkins` > `Plugins` > `Available Plugins` > `Docker` & `Kubernetes`. 
+`Dashboard` > `Manage Jenkins` > `Plugins` > `Available Plugins` > `Docker` & `Kubernetes`.
 
 Restart Jenkins upon finishing installation. If the container shutdowns, ssh to the vm and restart the container.
 
@@ -122,4 +132,3 @@ Click on test connection
 cd ../monitoring
 ```
 Follow README.md in the directory
-
