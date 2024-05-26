@@ -10,7 +10,9 @@ pipeline {
 
     environment {
         registry = 'antrinh/product-search'
-        registryCredential = 'dockerhub'      
+        registryCredential = 'dockerhub'
+        OPENAI_API_KEY = credentials('OPENAI_API_KEY')
+        PINECONE_API_KEY = credentials('PINECONE_API_KEY')
     }
 
     stages {
@@ -21,15 +23,18 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([
-                        string(credentialsId: 'OPENAI_API_KEY', variable: 'OPENAI_API_KEY'),
-                        string(credentialsId: 'PINECONE_API_KEY', variable: 'PINECONE_API_KEY')
-                ]) {
-                    echo "Run unit tests.."
-                    export OPENAI_API_KEY=${OPEN_API_KEY}
-                    export PINECONE_API_KEY=${PINECONE_API_KEY}
-                    sh "pip install -r requirements.txt && pytest"
-                }
+                // withCredentials([
+                //         string(credentialsId: 'OPENAI_API_KEY', variable: 'OPENAI_API_KEY'),
+                //         string(credentialsId: 'PINECONE_API_KEY', variable: 'PINECONE_API_KEY')
+                // ]) {
+                //     echo "Run unit tests.."
+                //     export OPENAI_API_KEY=${OPEN_API_KEY}
+                //     export PINECONE_API_KEY=${PINECONE_API_KEY}
+                //     sh "pip install -r requirements.txt && pytest"
+                // }
+                echo "Run unit tests.."
+                sh "pip install -r requirements.txt && pytest"
+                
             }
         }
         stage("Build") {
@@ -57,23 +62,31 @@ pipeline {
             }
             steps {
                 script {
-                    withCredentials([
-                        string(credentialsId: 'OPENAI_API_KEY', variable: 'OPENAI_API_KEY'),
-                        string(credentialsId: 'PINECONE_API_KEY', variable: 'PINECONE_API_KEY')
-                    ]) {
-                        container('helm') {
+                    // withCredentials([
+                    //     string(credentialsId: 'OPENAI_API_KEY', variable: 'OPENAI_API_KEY'),
+                    //     string(credentialsId: 'PINECONE_API_KEY', variable: 'PINECONE_API_KEY')
+                    // ]) {
+                    //     container('helm') {
+                    //     sh '''
+                    //         export OPENAI_API_KEY=${OPEN_API_KEY}
+                    //         export PINECONE_API_KEY=${PINECONE_API_KEY}
+                    //         kubectl create namespace product-search || true
+                    //         helm upgrade --install app --namespace product-search \
+                    //         --set open_api_key=OPENAI_API_KEY \
+                    //         --set pinecone_api_key=PINECONE_API_KEY\
+                    //         ./helm/app_chart_nginx_ingress
+                    //     '''
+                    //     }
+                    // }
+                    container('helm') {
                         sh '''
-                            export OPENAI_API_KEY=${OPEN_API_KEY}
-                            export PINECONE_API_KEY=${PINECONE_API_KEY}
                             kubectl create namespace product-search || true
                             helm upgrade --install app --namespace product-search \
                             --set open_api_key=OPENAI_API_KEY \
                             --set pinecone_api_key=PINECONE_API_KEY\
                             ./helm/app_chart_nginx_ingress
                         '''
-                        }
                     }
-                    
                 }
             }
         }
