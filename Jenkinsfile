@@ -54,12 +54,11 @@ pipeline {
                         string(credentialsId: 'openai_api_key', variable: 'OPENAI_API_KEY'),
                         string(credentialsId: 'pinecone_api_key', variable: 'PINECONE_API_KEY')
                     ])
-                        container('helm') {
-                            sh '''
-                                kubectl create namespace product-search || true
-                                helm upgrade --install app --namespace product-search ./helm/app_chart_nginx_ingress
-                            '''
-                        }
+                    container('helm') {
+                        sh '''
+                            kubectl create namespace product-search || true
+                            helm upgrade --install app --namespace product-search ./helm/app_chart_nginx_ingress
+                        '''
                     }
                 }
             }
