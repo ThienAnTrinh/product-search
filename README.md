@@ -1,12 +1,18 @@
 # Product Search
 
+<img src="./static/images/flowchart.png" alt="flowchart" width="700"/>
+
 ### API
 
-<img src="./static/images/swagger_ui.png" alt="api" width="800"/>
+<img src="./static/images/swagger_ui.png" alt="api" width="700"/>
+
+### Jenkins
+
+<img src="./static/images/jenkins.png" alt="jenkins" width="700"/>
 
 ### Prometheus and Grafana Monitoring
 
-<img src="./static/images/grafana.png" alt="monitoring_dashboard" width="800"/>
+<img src="./static/images/grafana.png" alt="monitoring_dashboard" width="700"/>
 
 ## Setup
 
@@ -66,7 +72,11 @@ Restart Jenkins upon finishing installation. If the container shutdowns, ssh to 
 
 Add webhook in Github repo: `http://<jenkins host address>:<port>/git-webhook/`
 
-Add new item for the project. Add credentials for Github and Dockerhub at `Dashboard` > `Credentials`
+Add new item for the project.
+
+Add credentials for Github and Dockerhub at `Dashboard` > `Credentials` > `Add credentials` > `Username with password`
+
+Add api keys at `Dashboard` > `Credentials` > `Add credentials` > `Sceret text`
 
 
 ## Spin up GKE cluster
@@ -97,7 +107,6 @@ helm upgrade --install app .
 ```
 Copy and paste `address`.nip.io to *helm/app_chart_nginx_ingress/nginx-ingress.yaml* `spec.host`
 
-Run
 ```shell
 helm upgrade --install app .
 ```
@@ -118,13 +127,13 @@ kubectl create clusterrolebinding anonymous-admin-binding \
   --namespace=product-search
 ```
 
-`Dashboard` > `Manage Jenkins` > `Clouds` > `New cloud`
-Add the GKE cluster name at `Cloud name`. Select `Kubernetes`
+`Dashboard` > `Manage Jenkins` > `Clouds` > `New cloud`  
+Add the GKE cluster name at `Cloud name`. Select `Kubernetes`  
 Get the certificate and URL of the cluster via this command:
 ```shell
 cat ~/.kube/config
 ```
-Click on test connection
+Click on test connection button
 
 ## Monitoring
 

@@ -11,7 +11,7 @@ pipeline {
     environment {
         registry = 'antrinh/product-search'
         registryCredential = 'dockerhub'
-        OPENAI_API_KEY = credentials('OPENAI_API_KEY')
+        OPENAI_API_KEY = credentials('OPENAI_API_KEY') // assign Jenkins credentials to env variables
         PINECONE_API_KEY = credentials('PINECONE_API_KEY')
     }
 
@@ -53,22 +53,6 @@ pipeline {
             }
             steps {
                 script {
-                    // withCredentials([
-                    //     string(credentialsId: 'OPENAI_API_KEY', variable: 'OPENAI_API_KEY'),
-                    //     string(credentialsId: 'PINECONE_API_KEY', variable: 'PINECONE_API_KEY')
-                    // ]) {
-                    //     container('helm') {
-                    //     sh '''
-                    //         export OPENAI_API_KEY=${OPEN_API_KEY}
-                    //         export PINECONE_API_KEY=${PINECONE_API_KEY}
-                    //         kubectl create namespace product-search || true
-                    //         helm upgrade --install app --namespace product-search \
-                    //         --set open_api_key=OPENAI_API_KEY \
-                    //         --set pinecone_api_key=PINECONE_API_KEY\
-                    //         ./helm/app_chart_nginx_ingress
-                    //     '''
-                    //     }
-                    // }
                     container('helm') {
                         sh '''
                             kubectl create namespace product-search || true
@@ -81,26 +65,5 @@ pipeline {
                 }
             }
         }
-        // stage('Monitor') {
-        //     steps {
-        //         script {
-        //             // Update Helm repositories
-        //             sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        //             sh 'helm repo update'
-
-        //             // Create Kubernetes namespace and install Prometheus stack
-        //             sh '''
-        //                 kubectl create namespace prometheus || true
-        //                 helm install monitoring-stack \
-        //                   --namespace prometheus \
-        //                   prometheus-community/kube-prometheus-stack
-        //             '''
-
-        //             // Expose Prometheus and Grafana dashboards
-        //             sh 'kubectl port-forward svc/monitoring-stack-kube-prom-prometheus 9090:9090 &'
-        //             sh 'kubectl port-forward svc/monitoring-stack-grafana 8888:80 &'
-        //         }
-        //     }
-        // }
     }
 }
