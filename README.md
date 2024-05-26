@@ -97,15 +97,15 @@ App Swagger UI can be accessed at `address`.nip.io/docs
 
 ```shell
 kubens product-search
-kubectl create clusterrolebinding model-serving-admin-binding \
+kubectl create clusterrolebinding product-search-admin-binding \
   --clusterrole=admin \
-  --serviceaccount=model-serving:default \
-  --namespace=model-serving
+  --serviceaccount=product-search:default \
+  --namespace=product-search
 
 kubectl create clusterrolebinding anonymous-admin-binding \
   --clusterrole=admin \
   --user=system:anonymous \
-  --namespace=model-serving
+  --namespace=product-search
 ```
 
 `Dashboard` > `Manage Jenkins` > `Clouds` > `New cloud`
