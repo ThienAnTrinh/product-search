@@ -81,6 +81,8 @@ Add api keys at `Dashboard` > `Credentials` > `Add credentials` > `Sceret text`
 
 ## Spin up GKE cluster
 
+**Note**: The *gke-cluster/* directory was cloned from a [repo](https://github.com/hashicorp/learn-terraform-provision-gke-cluster.git) of Hashicorp.
+
 ```shell
 cd ../../terraform
 terraform init
