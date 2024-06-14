@@ -1,0 +1,53 @@
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: {}
+      serviceMonitorNamespaceSelector: {}
+
+  grafana:
+    sidecar:
+      datasources:
+        defaultDatasourceEnabled: true
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://logsmetrics-loki.default.svc.cluster.local:3100
+        access: proxy
+
+
+loki-stack:
+  loki:
+    auth_enabled: false
+    isDefault: false
+    commonConfig:
+      replication_factor: 1
+    storage:
+      type: "filesystem"
+
+  fluent-bit:
+    enabled: true
+
+  singleBinary:
+    replicas: 1
+    persistence:
+      size: 50Gi
+
+  test:
+    enabled: false
+
+  gateway:
+    basicAuth:
+      enabled: true
+      username: lokigw
+      password: rQgtlRCQMswOTvh
+
+  monitoring:
+    serviceMonitor:
+      enabled: false
+    selfMonitoring:
+      enabled: false
+      grafanaAgent:
+        installOperator: false
+    lokiCanary:
+      enabled: false

@@ -247,7 +247,8 @@ controller:
     create: false
 
     ## The spec of the GlobalConfiguration for defining the global configuration parameters of the Ingress Controller.
-    spec: {}
+    spec:
+      {}
       # listeners:
       # - name: dns-udp
       #   port: 5353

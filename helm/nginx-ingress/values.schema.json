@@ -15,32 +15,20 @@
       "type": "object",
       "default": {},
       "title": "The Ingress Controller Helm Schema",
-      "required": [
-        "name",
-        "kind",
-        "image"
-      ],
+      "required": ["name", "kind", "image"],
       "properties": {
         "name": {
           "type": "string",
           "default": "",
           "title": "The name of the Ingress Controller",
-          "examples": [
-            "controller"
-          ]
+          "examples": ["controller"]
         },
         "kind": {
           "type": "string",
           "default": "",
           "title": "The kind of the Ingress Controller",
-          "enum": [
-            "deployment",
-            "daemonset"
-          ],
-          "examples": [
-            "deployment",
-            "daemonset"
-          ]
+          "enum": ["deployment", "daemonset"],
+          "examples": ["deployment", "daemonset"]
         },
         "annotations": {
           "type": "object",
@@ -52,56 +40,32 @@
           "type": "boolean",
           "default": false,
           "title": "Deploys the Ingress Controller for NGINX Plus",
-          "examples": [
-            false,
-            true
-          ]
+          "examples": [false, true]
         },
         "nginxReloadTimeout": {
           "type": "integer",
           "default": 0,
           "title": "Timeout in milliseconds which the Ingress Controller will wait for a successful NGINX reload after a change or at the initial start",
-          "examples": [
-            60000
-          ]
+          "examples": [60000]
         },
         "appprotect": {
           "type": "object",
           "default": {},
           "title": "The App Protect WAF Schema",
-          "required": [
-            "enable"
-          ],
+          "required": ["enable"],
           "properties": {
             "enable": {
               "type": "boolean",
               "default": false,
               "title": "Enable the App Protect WAF module in the Ingress Controller",
-              "examples": [
-                false,
-                true
-              ]
+              "examples": [false, true]
             },
             "logLevel": {
               "type": "string",
               "default": "",
               "title": "The logLevel for App Protect WAF",
-              "enum": [
-                "fatal",
-                "error",
-                "warn",
-                "info",
-                "debug",
-                "trace"
-              ],
-              "examples": [
-                "fatal",
-                "error",
-                "warn",
-                "info",
-                "debug",
-                "trace"
-              ]
+              "enum": ["fatal", "error", "warn", "info", "debug", "trace"],
+              "examples": ["fatal", "error", "warn", "info", "debug", "trace"]
             }
           },
           "examples": [
@@ -115,51 +79,37 @@
           "type": "object",
           "default": {},
           "title": "The  App Protect DoS Schema",
-          "required": [
-            "enable"
-          ],
+          "required": ["enable"],
           "properties": {
             "enable": {
               "type": "boolean",
               "default": false,
               "title": "Enable the App Protect DoS module in the Ingress Controller",
-              "examples": [
-                false,
-                true
-              ]
+              "examples": [false, true]
             },
             "debug": {
               "type": "boolean",
               "default": false,
               "title": "debugging for App Protect DoS",
-              "examples": [
-                false,
-                true
-              ]
+              "examples": [false, true]
             },
             "maxWorkers": {
               "type": "integer",
               "default": 0,
               "title": "Max number of nginx processes to support",
-              "examples": [
-                0
-              ]
+              "examples": [0]
             },
             "maxDaemons": {
               "type": "integer",
               "default": 0,
               "title": "Max number of ADMD instances",
-              "examples": [
-                0
-              ]
+              "examples": [0]
             },
             "memory": {
               "type": "integer",
               "default": 0,
               "title": "RAM memory size to consume in MB",
-              "examples": [
-                0
-              ]
+              "examples": [0]
             }
           },
           "examples": [
@@ -176,10 +126,7 @@
           "type": "boolean",
           "default": false,
           "title": "The hostNetwork Schema",
-          "examples": [
-            false,
-            true
-          ]
+          "examples": [false, true]
         },
         "dnsPolicy": {
           "type": "string",
@@ -201,24 +148,14 @@
           "type": "boolean",
           "default": false,
           "title": "Enables debugging for NGINX",
-          "examples": [
-            false,
-            true
-          ]
+          "examples": [false, true]
         },
         "logLevel": {
           "type": "integer",
           "default": 1,
           "title": "The logLevel of the Ingress Controller",
-          "enum": [
-            0,
-            1,
-            2,
-            3
-          ],
-          "examples": [
-            1
-          ]
+          "enum": [0, 1, 2, 3],
+          "examples": [1]
         },
         "customPorts": {
           "type": "array",
@@ -247,25 +184,19 @@
           "type": "object",
           "default": {},
           "title": "The image Schema",
-          "required": [
-            "repository"
-          ],
+          "required": ["repository"],
           "properties": {
             "repository": {
               "type": "string",
               "default": "nginx/nginx-ingress",
               "title": "The repository of the Ingress Controller",
-              "examples": [
-                "nginx/nginx-ingress"
-              ]
+              "examples": ["nginx/nginx-ingress"]
             },
             "tag": {
               "type": "string",
               "default": "2.3.1",
               "title": "The tag of the Ingress Controller image",
-              "examples": [
-                "2.3.1"
-              ]
+              "examples": ["2.3.1"]
             },
             "digest": {
               "type": "string",
@@ -284,18 +215,10 @@
                   "$ref": "https://raw.githubusercontent.com/nginxinc/kubernetes-json-schema/master/v1.26.1/_definitions.json#/definitions/io.k8s.api.core.v1.Container/properties/imagePullPolicy"
                 },
                 {
-                  "enum": [
-                    "Always",
-                    "IfNotPresent",
-                    "Never"
-                  ]
+                  "enum": ["Always", "IfNotPresent", "Never"]
                 }
               ],
-              "examples": [
-                "Always",
-                "IfNotPresent",
-                "Never"
-              ]
+              "examples": ["Always", "IfNotPresent", "Never"]
             }
           },
           "examples": [
@@ -316,9 +239,7 @@
           "type": "string",
           "default": "",
           "title": "The customConfigMap Schema",
-          "examples": [
-            ""
-          ]
+          "examples": [""]
         },
         "config": {
           "type": "object",
@@ -330,9 +251,7 @@
               "type": "string",
               "default": "",
               "title": "The name Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "annotations": {
               "type": "object",
@@ -346,9 +265,7 @@
               "title": "The entries Schema",
               "required": [],
               "properties": {},
-              "examples": [
-                {}
-              ]
+              "examples": [{}]
             }
           },
           "examples": [
@@ -381,9 +298,7 @@
               "type": "string",
               "default": "",
               "title": "The secret Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             }
           },
           "examples": []
@@ -398,25 +313,19 @@
               "type": "string",
               "default": "",
               "title": "The cert Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "key": {
               "type": "string",
               "default": "",
               "title": "The key Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "secret": {
               "type": "string",
               "default": "",
               "title": "The secret Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             }
           },
           "examples": []
@@ -514,11 +423,7 @@
               "properties": {
                 "type": {
                   "type": "string",
-                  "enum": [
-                    "Recreate",
-                    "RollingUpdate",
-                    "OnDelete"
-                  ]
+                  "enum": ["Recreate", "RollingUpdate", "OnDelete"]
                 }
               }
             }
@@ -537,114 +442,85 @@
           "type": "integer",
           "default": 1,
           "title": "The replicaCount",
-          "examples": [
-            1
-          ]
+          "examples": [1]
         },
         "ingressClass": {
           "type": "string",
           "default": "",
           "title": "The ingressClass",
-          "examples": [
-            "nginx"
-          ]
+          "examples": ["nginx"]
         },
         "setAsDefaultIngress": {
           "type": "boolean",
           "default": false,
           "title": "The setAsDefaultIngress",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "watchNamespace": {
           "type": "string",
           "default": "",
           "title": "The watchNamespace",
-          "examples": [
-            ""
-          ]
+          "examples": [""]
         },
         "watchSecretNamespace": {
           "type": "string",
           "default": "",
           "title": "The watchSecretNamespace",
-          "examples": [
-            ""
-          ]
+          "examples": [""]
         },
         "enableCustomResources": {
           "type": "boolean",
           "default": false,
           "title": "The enableCustomResources",
-          "examples": [
-            true
-          ]
+          "examples": [true]
         },
         "enablePreviewPolicies": {
           "type": "boolean",
           "default": false,
           "title": "The enablePreviewPolicies",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "enableOIDC": {
           "type": "boolean",
           "default": false,
           "title": "The enableOIDC",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "includeYear": {
           "type": "boolean",
           "default": false,
           "title": "The includeYear",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "enableTLSPassthrough": {
           "type": "boolean",
           "default": false,
           "title": "The enableTLSPassthrough",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "enableCertManager": {
           "type": "boolean",
           "default": false,
           "title": "The enableCertManager",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "enableExternalDNS": {
           "type": "boolean",
           "default": false,
           "title": "The enableExternalDNS",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "globalConfiguration": {
           "type": "object",
           "default": {},
           "title": "The globalConfiguration Schema",
-          "required": [
-            "create",
-            "spec"
-          ],
+          "required": ["create", "spec"],
           "properties": {
             "create": {
               "type": "boolean",
               "default": false,
               "title": "The create Schema",
-              "examples": [
-                false
-              ]
+              "examples": [false]
             },
             "spec": {
               "type": "object",
@@ -664,33 +540,25 @@
                         "type": "integer",
                         "default": 0,
                         "title": "The port",
-                        "examples": [
-                          5353
-                        ]
+                        "examples": [5353]
                       },
                       "protocol": {
                         "type": "string",
                         "default": "",
                         "title": "The protocol",
-                        "examples": [
-                          "TCP"
-                        ]
+                        "examples": ["TCP"]
                       },
                       "name": {
                         "type": "string",
                         "default": "",
                         "title": "The name",
-                        "examples": [
-                          "dns-tcp"
-                        ]
+                        "examples": ["dns-tcp"]
                       }
                     }
                   }
                 }
               },
-              "examples": [
-                {}
-              ]
+              "examples": [{}]
             }
           },
           "examples": [
@@ -704,26 +572,20 @@
           "type": "boolean",
           "default": false,
           "title": "The enableSnippets",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "healthStatus": {
           "type": "boolean",
           "default": false,
           "title": "The healthStatus",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "healthStatusURI": {
           "type": "string",
           "format": "uri-reference",
           "default": "/nginx-health",
           "title": "The healthStatusURI Schema",
-          "examples": [
-            "/nginx-health"
-          ]
+          "examples": ["/nginx-health"]
         },
         "nginxStatus": {
           "type": "object",
@@ -735,25 +597,19 @@
               "type": "boolean",
               "default": false,
               "title": "The enable",
-              "examples": [
-                true
-              ]
+              "examples": [true]
             },
             "port": {
               "type": "integer",
               "default": 8080,
               "title": "The port",
-              "examples": [
-                8080
-              ]
+              "examples": [8080]
             },
             "allowCidrs": {
               "type": "string",
               "default": "127.0.0.1",
               "title": "The allowCidrs",
-              "examples": [
-                "127.0.0.1"
-              ]
+              "examples": ["127.0.0.1"]
             }
           },
           "examples": [
@@ -774,9 +630,7 @@
               "type": "boolean",
               "default": false,
               "title": "The create",
-              "examples": [
-                true
-              ]
+              "examples": [true]
             },
             "type": {
               "type": "string",
@@ -802,9 +656,7 @@
               "title": "The extraLabels",
               "required": [],
               "properties": {},
-              "examples": [
-                {}
-              ]
+              "examples": [{}]
             },
             "loadBalancerIP": {
               "type": "string",
@@ -823,9 +675,7 @@
               "default": [],
               "title": "The loadBalancerSourceRanges",
               "items": {},
-              "examples": [
-                []
-              ]
+              "examples": [[]]
             },
             "allocateLoadBalancerNodePorts": {
               "type": "boolean",
@@ -838,9 +688,7 @@
               "default": "",
               "title": "The ipFamilyPolicy Schema",
               "$ref": "https://raw.githubusercontent.com/nginxinc/kubernetes-json-schema/master/v1.26.1/_definitions.json#/definitions/io.k8s.api.core.v1.ServiceSpec/properties/ipFamilyPolicy",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "ipFamilies": {
               "type": "array",
@@ -858,33 +706,25 @@
                   "type": "boolean",
                   "default": false,
                   "title": "The enable",
-                  "examples": [
-                    true
-                  ]
+                  "examples": [true]
                 },
                 "port": {
                   "type": "integer",
                   "default": 0,
                   "title": "The port",
-                  "examples": [
-                    80
-                  ]
+                  "examples": [80]
                 },
                 "nodePort": {
                   "type": "integer",
                   "default": 0,
                   "title": "The nodePort",
-                  "examples": [
-                    443
-                  ]
+                  "examples": [443]
                 },
                 "targetPort": {
                   "type": "integer",
                   "default": 0,
                   "title": "The targetPort",
-                  "examples": [
-                    80
-                  ]
+                  "examples": [80]
                 }
               },
               "examples": [
@@ -906,33 +746,25 @@
                   "type": "boolean",
                   "default": false,
                   "title": "The enable",
-                  "examples": [
-                    true
-                  ]
+                  "examples": [true]
                 },
                 "port": {
                   "type": "integer",
                   "default": 0,
                   "title": "The port",
-                  "examples": [
-                    443
-                  ]
+                  "examples": [443]
                 },
                 "nodePort": {
                   "type": "integer",
                   "default": 0,
                   "title": "The nodePort",
-                  "examples": [
-                    443
-                  ]
+                  "examples": [443]
                 },
                 "targetPort": {
                   "type": "integer",
                   "default": 0,
                   "title": "The targetPort",
-                  "examples": [
-                    443
-                  ]
+                  "examples": [443]
                 }
               },
               "examples": [
@@ -998,17 +830,13 @@
               "type": "string",
               "default": "",
               "title": "The name Schema",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "imagePullSecretName": {
               "type": "string",
               "default": "",
               "title": "The imagePullSecretName",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             }
           },
           "examples": [
@@ -1028,9 +856,7 @@
               "type": "boolean",
               "default": false,
               "title": "The create",
-              "examples": [
-                false
-              ]
+              "examples": [false]
             },
             "labels": {
               "type": "object",
@@ -1065,49 +891,37 @@
           "type": "object",
           "default": {},
           "title": "The reportIngressStatus Schema",
-          "required": [
-            "enable"
-          ],
+          "required": ["enable"],
           "properties": {
             "enable": {
               "type": "boolean",
               "default": false,
               "title": "The enable",
-              "examples": [
-                true
-              ]
+              "examples": [true]
             },
             "externalService": {
               "type": "string",
               "default": "",
               "title": "The externalService",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "ingressLink": {
               "type": "string",
               "default": "",
               "title": "The ingressLink",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "enableLeaderElection": {
               "type": "boolean",
               "default": false,
               "title": "The enableLeaderElection",
-              "examples": [
-                true
-              ]
+              "examples": [true]
             },
             "leaderElectionLockName": {
               "type": "string",
               "default": "",
               "title": "The leaderElectionLockName",
-              "examples": [
-                ""
-              ]
+              "examples": [""]
             },
             "annotations": {
               "type": "object",
@@ -1163,9 +977,7 @@
           "type": "object",
           "default": {},
           "title": "The podDisruptionBudget Schema",
-          "required": [
-            "enabled"
-          ],
+          "required": ["enabled"],
           "properties": {
             "enabled": {
               "type": "boolean"
@@ -1204,17 +1016,13 @@
               "type": "boolean",
               "default": false,
               "title": "The enable",
-              "examples": [
-                true
-              ]
+              "examples": [true]
             },
             "port": {
               "type": "integer",
               "default": 0,
               "title": "The port",
-              "examples": [
-                8081
-              ]
+              "examples": [8081]
             },
             "initialDelaySeconds": {
               "type": "integer",
@@ -1234,25 +1042,19 @@
           "type": "boolean",
           "default": false,
           "title": "The enableLatencyMetrics",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "disableIPV6": {
           "type": "boolean",
           "default": false,
           "title": "The disableIPV6",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "readOnlyRootFilesystem": {
           "type": "boolean",
           "default": false,
           "title": "The readOnlyRootFilesystem",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         }
       },
       "examples": [
@@ -1402,17 +1204,13 @@
       "type": "object",
       "default": {},
       "title": "The rbac Schema",
-      "required": [
-        "create"
-      ],
+      "required": ["create"],
       "properties": {
         "create": {
           "type": "boolean",
           "default": false,
           "title": "The create Schema",
-          "examples": [
-            true
-          ]
+          "examples": [true]
         }
       },
       "examples": [
@@ -1425,41 +1223,31 @@
       "type": "object",
       "default": {},
       "title": "The prometheus Schema",
-      "required": [
-        "create"
-      ],
+      "required": ["create"],
       "properties": {
         "create": {
           "type": "boolean",
           "default": false,
           "title": "The create",
-          "examples": [
-            true
-          ]
+          "examples": [true]
         },
         "port": {
           "type": "integer",
           "default": 9113,
           "title": "The port",
-          "examples": [
-            9113
-          ]
+          "examples": [9113]
         },
         "secret": {
           "type": "string",
           "default": "",
           "title": "The secret",
-          "examples": [
-            ""
-          ]
+          "examples": [""]
         },
         "scheme": {
           "type": "string",
           "default": "http",
           "title": "The scheme",
-          "examples": [
-            "http"
-          ]
+          "examples": ["http"]
         }
       },
       "examples": [
@@ -1475,41 +1263,31 @@
       "type": "object",
       "default": {},
       "title": "The Service Insight Schema",
-      "required": [
-        "create"
-      ],
+      "required": ["create"],
       "properties": {
         "create": {
           "type": "boolean",
           "default": false,
           "title": "The create",
-          "examples": [
-            true
-          ]
+          "examples": [true]
         },
         "port": {
           "type": "integer",
           "default": 9114,
           "title": "The port",
-          "examples": [
-            9114
-          ]
+          "examples": [9114]
         },
         "secret": {
           "type": "string",
           "default": "",
           "title": "The secret",
-          "examples": [
-            ""
-          ]
+          "examples": [""]
         },
         "scheme": {
           "type": "string",
           "default": "http",
           "title": "The scheme",
-          "examples": [
-            "http"
-          ]
+          "examples": ["http"]
         }
       },
       "examples": [
@@ -1525,25 +1303,19 @@
       "type": "object",
       "default": {},
       "title": "The nginxServiceMesh Schema",
-      "required": [
-        "enable"
-      ],
+      "required": ["enable"],
       "properties": {
         "enable": {
           "type": "boolean",
           "default": false,
           "title": "The enable",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         },
         "enableEgress": {
           "type": "boolean",
           "default": false,
           "title": "The enableEgress",
-          "examples": [
-            false
-          ]
+          "examples": [false]
         }
       },
       "examples": [

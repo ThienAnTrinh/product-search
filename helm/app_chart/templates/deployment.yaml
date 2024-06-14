@@ -26,3 +26,18 @@ spec:
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           ports:
           - containerPort: 8001
+          env:
+            - name: "OPENAI_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  key:  openai_api_key
+                  name: {{ .Release.Name }}-api-key
+            - name: "PINECONE_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  key:  pinecone_api_key
+                  name: {{ .Release.Name }}-api-key
+            - name: "JAEGER_AGENT_HOST"
+              value: "{{ .Values.jaeger.agent_host }}"
+            - name: "JAEGER_AGENT_PORT"
+              value: "{{ .Values.jaeger.agent_port }}"

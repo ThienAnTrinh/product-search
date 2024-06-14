@@ -28,7 +28,9 @@ spec:
         - name: {{ .Release.Name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
-          env:          
+          ports:
+          - containerPort: 8001
+          env:
             - name: "OPENAI_API_KEY"
               valueFrom:
                 secretKeyRef:
@@ -39,6 +41,7 @@ spec:
                 secretKeyRef:
                   key:  pinecone_api_key
                   name: {{ .Release.Name }}-api-key
-          ports:
-          - containerPort: 8001
-          
+            - name: "JAEGER_AGENT_HOST"
+              value: "{{ .Values.jaeger.agent_host }}"
+            - name: "JAEGER_AGENT_PORT"
+              value: "{{ .Values.jaeger.agent_port }}"

@@ -1,8 +1,8 @@
-version: '3.8'
+version: "3.8"
 
 services:
   product-search:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     platform: linux/amd64

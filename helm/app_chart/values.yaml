@@ -2,3 +2,10 @@ image:
   repository: antrinh/product-search
   tag: lts
   pullPolicy: Always
+
+openai_api_key: openai_api_key
+pinecone_api_key: pinecone_api_key
+
+jaeger:
+  agent_host: jaeger.monitoring.svc.cluster.local
+  agent_port: 6831

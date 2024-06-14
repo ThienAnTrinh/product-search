@@ -1,99 +1,108 @@
+from langchain_openai import OpenAIEmbeddings
+from langchain_pinecone import PineconeVectorStore
+from loguru import logger
+from opentelemetry import trace
+from opentelemetry.trace import get_tracer_provider
 from utils.prepare_data import get_data, prepare_documents
 
-from langchain_pinecone import PineconeVectorStore
-from langchain_openai import OpenAIEmbeddings
+tracer = get_tracer_provider().get_tracer("app", "0.0.1")
 
-# from langchain_community.embeddings import HuggingFaceBgeEmbeddings
-# from langchain_community.vectorstores import Chroma
-# from langchain_core.documents import Document
-
-from typing import List
+# ============
 
 
-class Vectorstore():
-
+class Vectorstore:
     def __init__(self, config) -> None:
-
-        # path = Path(config["db_path"])
-        # if path.exists():
-        #     shutil.rmtree(path)
-        # path.mkdir(parents=True)
-
-        # if torch.cuda.is_available():
-        #     model_kwargs = {"device": config.get("device", "cpu")}
-        # else:
-        #     model_kwargs = {"device": "cpu"}
-        # encode_kwargs = {"normalize_embeddings": config["normalize_embeddings"]}
-        
-        # embeddings = HuggingFaceBgeEmbeddings(
-        #     model_name=config["embedding_model"],
-        #     model_kwargs=model_kwargs,
-        #     encode_kwargs=encode_kwargs
-        # )
-
-        # self.db = Chroma(
-        #     embedding_function=embeddings,
-        #     persist_directory=str(path)
-        # )
 
         self.db = PineconeVectorStore(
             index_name=config["vector_store_config"]["pinecone_index_name"],
             embedding=OpenAIEmbeddings(
-                model=config["vector_store_config"]["embedding_model"], 
-                dimensions=config["vector_store_config"]["embedding_dim"]
-            )
+                model=config["vector_store_config"]["embedding_model"],
+                dimensions=config["vector_store_config"]["embedding_dim"],
+            ),
         )
 
-    
     def add_data(self) -> None:
 
-        try:
-            self.db.delete(delete_all=True)
-        except:
-            pass
+        with tracer.start_as_current_span("processors") as processors:
 
-        data = get_data()
-        docs = prepare_documents(data)
+            # Remove old data
+            try:
+                with tracer.start_as_current_span(
+                    "remove-old-data",
+                    links=[trace.Link(processors.get_span_context())],
+                ):
+                    self.db.delete(delete_all=True)
+                logger.info("Emptied database.")
+            except Exception as e:
+                logger.error(f"Failed to empty database: {e}")
 
-        texts, metadatas = zip(*[(doc.page_content, doc.metadata) for doc in docs])
-        self.db.add_texts(
-            texts=texts,
-            metadatas=metadatas,
-            embedding_chunk_size=500,
-            batch_size=128
+            # Retrieve and preprocess data
+            try:
+                with tracer.start_as_current_span(
+                    "retrieve-preprocess",
+                    links=[trace.Link(processors.get_span_context())],
+                ):
+                    data = get_data()
+                logger.info("Finished retrieving and preprocessing data.")
+            except Exception as e:
+                logger.error(f"Failed to get data: {e}")
+
+            # Prepare data for DB
+            try:
+                with tracer.start_as_current_span(
+                    "prepare-data",
+                    links=[trace.Link(processors.get_span_context())],
+                ):
+                    docs = prepare_documents(data)
+                    texts, metadatas = zip(
+                        *[(doc.page_content, doc.metadata) for doc in docs],
+                    )
+                logger.info("Finished preparing data for DB.")
+            except Exception as e:
+                logger.error(f"Failed to prepare data for BD: {e}")
+
+            # Embed data
+            try:
+                with tracer.start_as_current_span(
+                    "add-texts-to-db",
+                    links=[trace.Link(processors.get_span_context())],
+                ):
+                    self.db.add_texts(
+                        texts=texts,
+                        metadatas=metadatas,
+                        embedding_chunk_size=500,
+                        batch_size=128,
+                    )
+                logger.info("Finished embedding data to database.")
+            except Exception as e:
+                logger.error(f"Failed to embed data to database: {e}")
+
+    def search(self, query) -> tuple[list[dict]]:
+
+        with tracer.start_as_current_span("processors") as processors:
+            with tracer.start_as_current_span(
+                "search",
+                links=[trace.Link(processors.get_span_context())],
+            ):
+                results = self.db.similarity_search(query, k=5)
+                response = [
+                    {
+                        "id": result.metadata["id"],
+                        "title": result.metadata["title"],
+                        "brand": result.metadata["brand"],
+                        "price": result.metadata["price"],
+                        "description": result.metadata["description"],
+                    }
+                    for result in results
+                ]
+
+        logger.info(
+            {
+                "Query": query,
+                "Result": response,
+            },
         )
-
-        # df = self.create_dataframe()
-        # loader = DataFrameLoader(df, page_content_column="EN")
-        # texts, metadatas = zip(*[(doc.page_content, doc.metadata) for doc in loader.load()])
-
-        # self.vector_store.add_texts(
-        #     texts=texts,
-        #     metadatas=metadatas,
-        #     embedding_chunk_size=500,
-        #     batch_size=32
-        # )
-
-
-    # def add_documents(self, docs: List[Document]) -> None:
-    #     return self.db.add_documents(docs)
-    
-
-    def search(self, query) -> tuple[List[dict]]:
-
-        results = self.db.similarity_search(query, k=5)
-        response = [{
-            "id": result.metadata["id"],
-            "title": result.metadata["title"],
-            "brand": result.metadata["brand"],
-            "price": result.metadata["price"],
-            "description": result.metadata["description"]
-        }
-        for result in results
-        ]
         return response
-    
 
     def __call__(self):
         return self
-    

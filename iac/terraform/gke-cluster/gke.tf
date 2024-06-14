@@ -19,7 +19,7 @@ variable "gke_num_nodes" {
 # GKE cluster
 data "google_container_engine_versions" "gke_version" {
   location = var.region
-  version_prefix = "1.27."
+  version_prefix = "1.29."
 }
 
 resource "google_container_cluster" "primary" {
@@ -41,7 +41,7 @@ resource "google_container_node_pool" "primary_nodes" {
   name       = google_container_cluster.primary.name
   location   = var.region
   cluster    = google_container_cluster.primary.name
-  
+
   version = data.google_container_engine_versions.gke_version.release_channel_latest_version["STABLE"]
   node_count = var.gke_num_nodes
 
@@ -66,8 +66,8 @@ resource "google_container_node_pool" "primary_nodes" {
 
 
 # # Kubernetes provider
-# # The Terraform Kubernetes Provider configuration below is used as a learning reference only. 
-# # It references the variables and resources provisioned in this file. 
+# # The Terraform Kubernetes Provider configuration below is used as a learning reference only.
+# # It references the variables and resources provisioned in this file.
 # # We recommend you put this in another file -- so you can have a more modular configuration.
 # # https://learn.hashicorp.com/terraform/kubernetes/provision-gke-cluster#optional-configure-terraform-kubernetes-provider
 # # To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider.

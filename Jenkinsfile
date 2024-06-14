@@ -25,14 +25,14 @@ pipeline {
             steps {
                 echo "Run unit tests.."
                 sh "pip install -r requirements.txt && pytest"
-                
+
             }
         }
         stage("Build") {
             steps {
                 script {
                     echo "Building docker image.."
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
                     echo 'Pushing image to dockerhub..'
                     docker.withRegistry( '', registryCredential ) {
                             dockerImage.push()

@@ -1,13 +1,17 @@
-import sys
-sys.path.insert(1, "app")
-import yaml
+from __future__ import annotations
 
+import os
+import sys
+
+import yaml
+from dotenv import load_dotenv
 from utils.vectordb import Vectorstore
+
+sys.path.insert(1, "app")
+
 
 # =============
 
-import os
-from dotenv import load_dotenv
 load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
@@ -16,7 +20,7 @@ os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
 # =============
 
 
-with open("app/utils/config.yml", "r") as file:
+with open("app/utils/config.yml") as file:
     config = yaml.safe_load(file)
 
 
@@ -29,7 +33,7 @@ def test_app():
 
     if not docs:
         db.add_data()
-    
+
     docs = db.search("high quality")
     assert type(docs) == list
 
