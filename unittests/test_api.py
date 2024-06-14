@@ -1,13 +1,11 @@
-from __future__ import annotations
-
 import os
 import sys
+
+sys.path.insert(1, "app")
 
 import yaml
 from dotenv import load_dotenv
 from utils.vectordb import Vectorstore
-
-sys.path.insert(1, "app")
 
 
 # =============
