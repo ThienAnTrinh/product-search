@@ -154,14 +154,15 @@ kubectl create clusterrolebinding anonymous-admin-binding \
   --namespace=product-search
 ```
 
-`Dashboard` > `Manage Jenkins` > `Clouds` > `New cloud`
-Add the GKE cluster name at `Cloud name`. Select `Kubernetes`
+`Dashboard` > `Manage Jenkins` > `Clouds` > `New cloud`  
+Add the GKE cluster name at `Cloud name`. Select `Kubernetes`.  
 Get the certificate and URL of the cluster via this command:
 
 ```shell
 cat ~/.kube/config
 ```
 
+Input _product-search_ at `namespace`.  
 Click on test connection button to confirm successful connection.
 
 ## 4. Monitoring
@@ -173,12 +174,12 @@ kubens monitoring
 
 ### 4.1. Logs & Metrics Monitoring with Loki, Prometheus & Grafana
 
-_Source:_
-_[grafana helm charts](https://github.com/grafana/helm-charts/)_
-_[prometheus helm charts](https://github.com/prometheus-community/helm-charts/)_
+_Source:_  
+_[grafana helm charts](https://github.com/grafana/helm-charts/)_  
+_[prometheus helm charts](https://github.com/prometheus-community/helm-charts/)_  
 
-_Chart links:_
-_[kube-prometheus-stack](https://github.com/grafana/helm-charts/releases/download/loki-stack-2.10.2/loki-stack-2.10.2.tgz)_
+_Chart links:_  
+_[kube-prometheus-stack](https://github.com/grafana/helm-charts/releases/download/loki-stack-2.10.2/loki-stack-2.10.2.tgz)_  
 _[loki-stack](https://github.com/prometheus-community/helm-charts/releases/download/kube-prometheus-stack-60.1.0/kube-prometheus-stack-60.1.0.tgz)_
 
 ```shell
@@ -189,12 +190,12 @@ helm upgrade --install logsmetrics .
 Expose ports to access prometheus and grafana dashboards
 
 ```shell
-kubectl port-forward svc/logsmetric-grafana 3000:80
+kubectl port-forward svc/logsmetrics-grafana 3000:80
 ```
 
 <img src="./assets/images/grafana-login.png" alt="grafana-login" width=700/>
 
-_Username:_ **admin**
+_Username:_ **admin**  
 _Password:_ **prom-operator**
 
 ### 4.2. Tracing with Jaeger
