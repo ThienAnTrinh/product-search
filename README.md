@@ -14,7 +14,7 @@
 
 ### Metrics Monitoring with Prometheus and Grafana
 
-<img src="./assets/images/grafana.png" alt="monitoring_dashboard" width="700"/>
+<img src="./assets/images/grafana.png" alt="grafana" width="700"/>
 
 ### Jaeger Tracing
 
@@ -23,7 +23,7 @@
 
 ### Loggings with Loki and Grafana
 
-<img src="./assets/images/loki.png" alt="jaeger-1" width=700/>
+<img src="./assets/images/loki.png" alt="loki" width=700/>
 
 ## Setup
 
@@ -67,7 +67,9 @@ sudo docker logs <container_id>
 
 Access the jenkins container at port 8081
 
-Copy and paste the password to log into jenkins. Username is _admin_
+Copy and paste the password to log into jenkins. Username is _admin_  
+
+To exit the container:
 
 ```shell
 exit
@@ -211,4 +213,4 @@ Expose ports to access jaeger UI
 kubectl port-forward svc/jaeger 16686:16686
 ```
 
-<img src="./assets/images/jaeger.png" alt="jaeger-1" width=700/>
+<img src="./assets/images/jaeger.png" alt="jaeger" width=700/>
