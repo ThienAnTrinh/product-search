@@ -55,10 +55,9 @@ pipeline {
                 script {
                     container('helm') {
                         sh '''
-                            kubectl create namespace product-search || true
                             helm upgrade --install app --namespace product-search \
                             --set openai_api_key=OPENAI_API_KEY \
-                            --set pinecone_api_key=PINECONE_API_KEY\
+                            --set pinecone_api_key=PINECONE_API_KEY \
                             ./helm/app_chart_nginx_ingress
                         '''
                     }

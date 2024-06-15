@@ -123,6 +123,10 @@ helm upgrade --install nginx-ingress .
 
 cd ../app_chart_nginx_ingress
 kubectl create ns product-search
+```
+
+_Optional:_
+```shell
 kubens product-search
 helm upgrade --install app --set openai_api_key="<openai api key>" --set pinecone_api_key="<pinecone api key>" .
 ```
