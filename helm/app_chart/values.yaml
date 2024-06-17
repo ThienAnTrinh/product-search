@@ -1,7 +1,9 @@
 image:
   repository: antrinh/product-search
-  tag: lts
+  tag: 0.1.12
   pullPolicy: Always
+
+replicas: 1
 
 openai_api_key: openai_api_key
 pinecone_api_key: pinecone_api_key

@@ -25,9 +25,42 @@
 
 <img src="./assets/images/loki.png" alt="loki" width=700/>
 
+
 ## Setup
 
-## 1. Spin up compute instance
+1. [Set up dev environment](#1-set-up-dev-evironment)
+
+2. [Spin up a compute instance](#2-spin-up-a-compute-instance)
+
+3. [Set up Jenkins](#3-set-up-jenkins)
+
+4. [Spin up a GKE cluster](#4-spin-up-a-gke-cluster)
+
+5. [Monitoring](#5-monitoring)
+
+    5.1. [Logs & Metrics Monitoring with Loki, Prometheus & Grafana](#51-logs--metrics-monitoring-with-loki-prometheus--grafana)
+
+    5.2. [Tracing with Jaeger](#52-tracing-with-jaeger)
+
+
+## 1. Set up dev evironment
+
+Python: 3.10
+
+Install the neccessary packages, including Ansible and google auth:
+
+```shell
+pip install requirements-dev.txt
+```
+Install [Terraform ](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+
+Install [Helm](https://helm.sh/docs/intro/install/)
+
+_Optional:_
+Install [**kubectx** and **kubens**](https://github.com/ahmetb/kubectx.git)
+
+
+## 2. Spin up a compute instance
 
 Create a new GCP project
 
@@ -75,7 +108,7 @@ To exit the container:
 exit
 ```
 
-## 2. Set up Jenkins
+## 3. Set up Jenkins
 
 Install **Docker**, **Docker Pipeline**, and **Kubernetes** plugins:
 `Dashboard` > `Manage Jenkins` > `Plugins` > `Available Plugins` > `Docker`, `Docker Pipeline` & `Kubernetes`.
@@ -93,7 +126,7 @@ Add credentials for Github and Dockerhub at `Dashboard` > `Credentials` > `Add c
 
 Add api keys at `Dashboard` > `Credentials` > `Add credentials` > `Sceret text`
 
-## 3. Spin up GKE cluster
+## 4. Spin up a GKE cluster
 
 **Note**: The _gke-cluster/_ directory was cloned from a [repo](https://github.com/hashicorp/learn-terraform-provision-gke-cluster.git) of Hashicorp.
 
@@ -167,14 +200,14 @@ cat ~/.kube/config
 Input _product-search_ at `namespace`.  
 Click on test connection button to confirm successful connection.
 
-## 4. Monitoring
+## 5. Monitoring
 
 ```shell
-k create ns monitoring
+kubectl create ns monitoring
 kubens monitoring
 ```
 
-### 4.1. Logs & Metrics Monitoring with Loki, Prometheus & Grafana
+### 5.1. Logs & Metrics Monitoring with Loki, Prometheus & Grafana
 
 _Source:_  
 _[grafana helm charts](https://github.com/grafana/helm-charts/)_  
@@ -200,7 +233,7 @@ kubectl port-forward svc/logsmetrics-grafana 3000:80
 _Username:_ **admin**  
 _Password:_ **prom-operator**
 
-### 4.2. Tracing with Jaeger
+### 5.2. Tracing with Jaeger
 
 ```shell
 cd monitoring/jaeger-tracing/helm-charts

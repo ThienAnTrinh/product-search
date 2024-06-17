@@ -14,14 +14,16 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from utils.pydanticInputs import Input
 from utils.vectordb import Vectorstore
 
-# ============
+
+# Load environment variables
+
 load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 os.environ["PINECONE_API_KEY"] = os.getenv("PINECONE_API_KEY")
 
 
-# ============
+# Jaeger for tracing
 
 trace_provider = TracerProvider(
     resource=Resource.create({SERVICE_NAME: "product-search-service"}),
@@ -39,7 +41,7 @@ trace.set_tracer_provider(trace_provider)
 
 # ============
 
-
+# load config and vectore store
 with open("utils/config.yml") as file:
     config = yaml.safe_load(file)
 db = Vectorstore(config)
@@ -53,6 +55,7 @@ app = FastAPI()
 FastAPIInstrumentor.instrument_app(app, tracer_provider=trace_provider)
 
 
+# endpoint to create embedding in vectorstore
 @app.post("/create-embeddings")
 async def embed(db: Vectorstore = Depends(db())):
     try:
@@ -60,7 +63,7 @@ async def embed(db: Vectorstore = Depends(db())):
     except Exception as error_message:
         raise HTTPException(status_code=500, detail=error_message)
 
-
+# endpoint for product search
 @app.post("/search")
 async def search(
     input: Input,

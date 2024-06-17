@@ -1,4 +1,6 @@
 image:
   repository: antrinh/product-search-istio
-  tag: lts
+  tag: 0.1.12
   pullPolicy: Always
+
+replicas: 1
