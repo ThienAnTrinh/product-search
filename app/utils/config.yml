@@ -1,0 +1,4 @@
+vector_store_config:
+  embedding_model: text-embedding-3-small
+  embedding_dim: 256
+  pinecone_index_name: product-search-embeddings

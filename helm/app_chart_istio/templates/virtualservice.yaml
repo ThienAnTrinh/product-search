@@ -1,0 +1,41 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}
+  namespace: product-search
+spec:
+  gateways:
+  - product-search/{{ .Release.Name }}-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /{{ .Release.Name }}-service/docs
+    rewrite:
+      uri: /docs
+    route:
+    - destination:
+        host: {{ .Release.Name }}.product-search.svc.cluster.local
+        port:
+          number: 8003
+  - match:
+    - uri:
+        prefix: /{{ .Release.Name }}-service/openapi.json
+    rewrite:
+      uri: /openapi.json
+    route:
+    - destination:
+        host: {{ .Release.Name }}.product-search.svc.cluster.local
+        port:
+          number: 8003
+  - match:
+    - uri:
+        prefix: /{{ .Release.Name }}-service/search
+    rewrite:
+      uri: /search
+    route:
+    - destination:
+        host: {{ .Release.Name }}.product-search.svc.cluster.local
+        port:
+          number: 8003

@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-nginx-ingress
+  namespace: product-search
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: 35.203.6.8.nip.io # "xx.xxx.xxx.xxx.nip.io", please refer to https://github.com/GoogleCloudPlatform/community/blob/master/archived/nginx-ingress-gke/index.md
+    http:
+      paths:
+      - path: /docs
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: 8001
+      - path: /openapi.json
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: 8001
+      - path: /search
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}
+            port:
+              number: 8001

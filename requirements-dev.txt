@@ -1,0 +1,5 @@
+-r requirememts.txt
+ansible==9.5.1
+google-auth==2.29.0
+pre-commit==3.7.1
+pytest==8.2.0

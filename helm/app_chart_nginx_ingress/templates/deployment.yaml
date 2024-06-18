@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+  namespace: product-search
+spec:
+  replicas: {{ .Values.replicas. }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      # tolerations:
+      #   - key: "node.kubernetes.io/not-ready"
+      #     operator: "Exists"
+      #     effect: "NoExecute"
+      #     tolerationSeconds: 3000
+      #   - key: "node.kubernetes.io/unreachable"
+      #     operator: "Exists"
+      #     effect: "NoExecute"
+      #     tolerationSeconds: 3000
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+          - containerPort: 8001
+          env:
+            - name: "OPENAI_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  key:  openai_api_key
+                  name: {{ .Release.Name }}-api-key
+            - name: "PINECONE_API_KEY"
+              valueFrom:
+                secretKeyRef:
+                  key:  pinecone_api_key
+                  name: {{ .Release.Name }}-api-key
+            - name: "JAEGER_AGENT_HOST"
+              value: "{{ .Values.jaeger.agent_host }}"
+            - name: "JAEGER_AGENT_PORT"
+              value: "{{ .Values.jaeger.agent_port }}"
